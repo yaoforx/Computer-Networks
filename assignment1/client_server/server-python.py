@@ -12,6 +12,18 @@ QUEUE_LENGTH = 10
 
 def server(server_port):
     """TODO: Listen on socket and print received message to sys.stdout"""
+    serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    serv.bind(('127.0.0.1', server_port))
+    serv.listen(QUEUE_LENGTH)
+    while True:
+        conn, addr = serv.accept()
+        while True:
+            data = conn.recv(RECV_BUFFER_SIZE)
+            if not data:
+                break
+            sys.stdout.write(data)
+            sys.stdout.flush()
+    conn.close()
     pass
 
 
